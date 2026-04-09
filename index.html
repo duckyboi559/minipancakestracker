@@ -1,67 +1,108 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Ducky's Sales Tracker</title>
-    <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mini Pancake Sales Tracker</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-<div class="app">
-    <h1>Ducky’s Street Dogs</h1>
-    <p class="subtitle">Sales Tracker</p>
+  <div class="app">
+    <h1>Mini Pancakes</h1>
+    <p class="subtitle">Pink Sales Tracker</p>
 
     <div class="item-card">
-        <h2>Bacon Dog</h2>
-        <div class="price-line">Price: $<input type="number" id="baconPrice" value="5" min="0" step="0.01"></div>
-        <div class="count" id="baconCount">0</div>
-        <div class="button-row">
-            <button onclick="changeCount('bacon', -1)">-1</button>
-            <button onclick="changeCount('bacon', 1)">+1</button>
-        </div>
-        <p class="item-total">Sales: <span id="baconTotal">$0.00</span></p>
-    </div>
-
-    <div class="item-card">
-        <h2>Quack Attack</h2>
-        <div class="price-line">Price: $<input type="number" id="quackPrice" value="6" min="0" step="0.01"></div>
-        <div class="count" id="quackCount">0</div>
-        <div class="button-row">
-            <button onclick="changeCount('quack', -1)">-1</button>
-            <button onclick="changeCount('quack', 1)">+1</button>
-        </div>
-        <p class="item-total">Sales: <span id="quackTotal">$0.00</span></p>
+      <h2>Stack’d 20</h2>
+      <div class="price-line">Price: $<input type="number" id="stack20Price" value="10" min="0" step="0.01"></div>
+      <div class="count" id="stack20Count">0</div>
+      <div class="button-row">
+        <button onclick="changeCount('stack20', -1)">-1</button>
+        <button onclick="changeCount('stack20', 1)">+1</button>
+      </div>
+      <p class="item-total">Sales: <span id="stack20Total">$0.00</span></p>
     </div>
 
     <div class="item-card">
-        <h2>Asada Fries</h2>
-        <div class="price-line">Price: $<input type="number" id="friesPrice" value="10" min="0" step="0.01"></div>
-        <div class="count" id="friesCount">0</div>
-        <div class="button-row">
-            <button onclick="changeCount('fries', -1)">-1</button>
-            <button onclick="changeCount('fries', 1)">+1</button>
-        </div>
-        <p class="item-total">Sales: <span id="friesTotal">$0.00</span></p>
+      <h2>Stack’d 25</h2>
+      <div class="price-line">Price: $<input type="number" id="stack25Price" value="12" min="0" step="0.01"></div>
+      <div class="count" id="stack25Count">0</div>
+      <div class="button-row">
+        <button onclick="changeCount('stack25', -1)">-1</button>
+        <button onclick="changeCount('stack25', 1)">+1</button>
+      </div>
+      <p class="item-total">Sales: <span id="stack25Total">$0.00</span></p>
+    </div>
+
+    <div class="item-card">
+      <h2>Stack’d 30</h2>
+      <div class="price-line">Price: $<input type="number" id="stack30Price" value="15" min="0" step="0.01"></div>
+      <div class="count" id="stack30Count">0</div>
+      <div class="button-row">
+        <button onclick="changeCount('stack30', -1)">-1</button>
+        <button onclick="changeCount('stack30', 1)">+1</button>
+      </div>
+      <p class="item-total">Sales: <span id="stack30Total">$0.00</span></p>
+    </div>
+
+    <div class="item-card">
+      <h2>Your Way 20</h2>
+      <div class="price-line">Price: $<input type="number" id="your20Price" value="8" min="0" step="0.01"></div>
+      <div class="count" id="your20Count">0</div>
+      <div class="button-row">
+        <button onclick="changeCount('your20', -1)">-1</button>
+        <button onclick="changeCount('your20', 1)">+1</button>
+      </div>
+      <p class="item-total">Sales: <span id="your20Total">$0.00</span></p>
+    </div>
+
+    <div class="item-card">
+      <h2>Your Way 25</h2>
+      <div class="price-line">Price: $<input type="number" id="your25Price" value="10" min="0" step="0.01"></div>
+      <div class="count" id="your25Count">0</div>
+      <div class="button-row">
+        <button onclick="changeCount('your25', -1)">-1</button>
+        <button onclick="changeCount('your25', 1)">+1</button>
+      </div>
+      <p class="item-total">Sales: <span id="your25Total">$0.00</span></p>
+    </div>
+
+    <div class="item-card">
+      <h2>Your Way 30</h2>
+      <div class="price-line">Price: $<input type="number" id="your30Price" value="12" min="0" step="0.01"></div>
+      <div class="count" id="your30Count">0</div>
+      <div class="button-row">
+        <button onclick="changeCount('your30', -1)">-1</button>
+        <button onclick="changeCount('your30', 1)">+1</button>
+      </div>
+      <p class="item-total">Sales: <span id="your30Total">$0.00</span></p>
     </div>
 
     <div class="summary-card">
-        <h2>Grand Total</h2>
-        <div class="grand-total" id="grandTotal">$0.00</div>
+      <h2>Grand Total</h2>
+      <div class="grand-total" id="grandTotal">$0.00</div>
     </div>
 
     <div class="summary-card">
-        <h2>Total Items Sold</h2>
-        <div class="grand-total" id="totalItems">0</div>
+      <h2>Total Orders Sold</h2>
+      <div class="grand-total" id="totalItems">0</div>
     </div>
 
     <div class="summary-card">
-        <h2>Last Updated</h2>
-        <p id="lastUpdated">Not yet</p>
+      <h2>Today's Date</h2>
+      <p id="todayDate"></p>
     </div>
 
-    <button class="reset-btn" onclick="resetDay()">Reset Day</button>
-</div>
+    <div class="action-row">
+      <button class="save-btn" onclick="saveDay()">Save Day</button>
+      <button class="reset-btn" onclick="resetDay()">Reset Day</button>
+    </div>
 
-<script src="script.js"></script>
+    <div class="summary-card">
+      <h2>Previous Days</h2>
+      <div id="historyList" class="history-list"></div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html>

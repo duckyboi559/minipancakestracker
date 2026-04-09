@@ -1,3 +1,11 @@
+const tapSound = new Audio("sounds/tap.mp3");
+tapSound.preload = "auto";
+
+function playTapSound() {
+  tapSound.currentTime = 0;
+  tapSound.play().catch(()=>{});
+}
+
 let data = {
   stack20: { count: Number(localStorage.getItem("stack20Count")) || 0, price: 10 },
   stack25: { count: Number(localStorage.getItem("stack25Count")) || 0, price: 12 },
@@ -83,6 +91,8 @@ function changeCount(item, amount) {
     data[item].count = 0;
   }
 
+  playTapSound();
+
   saveCurrentData();
   updateScreen();
 }
@@ -148,7 +158,5 @@ function saveDay() {
   alert("Day saved and reset for tomorrow.");
 }
 
-updateScreen();
-renderHistory();
 updateScreen();
 renderHistory();

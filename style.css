@@ -10,7 +10,7 @@ body {
 }
 
 .app {
-  max-width: 600px;
+  max-width: 700px;
   margin: 0 auto;
   padding: 20px 15px 40px;
 }
@@ -28,7 +28,53 @@ h1 {
   color: #8a2d53;
 }
 
-.item-card,
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+
+.tile {
+  background: white;
+  border-radius: 18px;
+  padding: 16px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border: 2px solid #ffc0cb;
+  cursor: pointer;
+}
+
+.tile:active {
+  transform: scale(0.98);
+}
+
+.tile-img {
+  width: 72px;
+  height: 72px;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto 8px;
+}
+
+.tile h2 {
+  margin: 0 0 6px;
+  font-size: 1.15rem;
+  color: #b03060;
+}
+
+.price {
+  margin: 0 0 10px;
+  font-weight: bold;
+  color: #8a2d53;
+}
+
+.count {
+  font-size: 2.2rem;
+  font-weight: bold;
+  color: #b03060;
+}
+
 .summary-card {
   background: white;
   border-radius: 18px;
@@ -38,57 +84,32 @@ h1 {
   border: 2px solid #ffc0cb;
 }
 
-h2 {
+.summary-card h2 {
   margin-top: 0;
 }
 
-.price-line {
-  margin-bottom: 12px;
-  font-size: 1rem;
-}
-
-.price-line input {
-  width: 90px;
-  padding: 8px;
-  font-size: 1rem;
-  border: 2px solid #f3b6cb;
-  border-radius: 8px;
-}
-
-.count {
-  font-size: 3rem;
+.grand-total {
+  font-size: 2.3rem;
   font-weight: bold;
   text-align: center;
-  margin: 10px 0 15px;
   color: #b03060;
-}
-
-.button-row {
-  display: flex;
-  gap: 10px;
-}
-
-.button-row button,
-.save-btn,
-.reset-btn {
-  flex: 1;
-  padding: 16px;
-  font-size: 1.1rem;
-  font-weight: bold;
-  border: none;
-  border-radius: 12px;
-  cursor: pointer;
-}
-
-.button-row button {
-  background: #ff8fb1;
-  color: white;
 }
 
 .action-row {
   display: flex;
   gap: 10px;
   margin-bottom: 16px;
+}
+
+.save-btn,
+.reset-btn {
+  flex: 1;
+  padding: 16px;
+  font-size: 1.05rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
 }
 
 .save-btn {
@@ -99,21 +120,6 @@ h2 {
 .reset-btn {
   background: #5a3142;
   color: white;
-}
-
-.item-total {
-  text-align: center;
-  font-size: 1.1rem;
-  margin-top: 14px;
-  font-weight: bold;
-  color: #8a2d53;
-}
-
-.grand-total {
-  font-size: 2.5rem;
-  font-weight: bold;
-  text-align: center;
-  color: #b03060;
 }
 
 .history-list {

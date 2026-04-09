@@ -1,52 +1,28 @@
 let data = {
-  stack20: {
-    count: Number(localStorage.getItem("stack20Count")) || 0,
-    price: Number(localStorage.getItem("stack20Price")) || 10
-  },
-  stack25: {
-    count: Number(localStorage.getItem("stack25Count")) || 0,
-    price: Number(localStorage.getItem("stack25Price")) || 12
-  },
-  stack30: {
-    count: Number(localStorage.getItem("stack30Count")) || 0,
-    price: Number(localStorage.getItem("stack30Price")) || 15
-  },
-  your20: {
-    count: Number(localStorage.getItem("your20Count")) || 0,
-    price: Number(localStorage.getItem("your20Price")) || 8
-  },
-  your25: {
-    count: Number(localStorage.getItem("your25Count")) || 0,
-    price: Number(localStorage.getItem("your25Price")) || 10
-  },
-  your30: {
-    count: Number(localStorage.getItem("your30Count")) || 0,
-    price: Number(localStorage.getItem("your30Price")) || 12
-  }
+  stack20: { count: Number(localStorage.getItem("stack20Count")) || 0, price: 10 },
+  stack25: { count: Number(localStorage.getItem("stack25Count")) || 0, price: 12 },
+  stack30: { count: Number(localStorage.getItem("stack30Count")) || 0, price: 15 },
+  your20: { count: Number(localStorage.getItem("your20Count")) || 0, price: 8 },
+  your25: { count: Number(localStorage.getItem("your25Count")) || 0, price: 10 },
+  your30: { count: Number(localStorage.getItem("your30Count")) || 0, price: 12 }
 };
 
 let history = JSON.parse(localStorage.getItem("pancakeSalesHistory")) || [];
 
-const ids = [
-  "stack20", "stack25", "stack30",
-  "your20", "your25", "your30"
-];
+const ids = ["stack20", "stack25", "stack30", "your20", "your25", "your30"];
 
 function formatMoney(amount) {
   return `$${amount.toFixed(2)}`;
 }
 
 function getTodayLabel() {
-  const today = new Date();
-  return today.toLocaleDateString();
+  return new Date().toLocaleDateString();
 }
 
 function saveCurrentData() {
   ids.forEach((id) => {
     localStorage.setItem(`${id}Count`, data[id].count);
-    localStorage.setItem(`${id}Price`, data[id].price);
   });
-
   localStorage.setItem("pancakeSalesHistory", JSON.stringify(history));
 }
 
@@ -61,8 +37,6 @@ function getTotalItems() {
 function updateScreen() {
   ids.forEach((id) => {
     document.getElementById(`${id}Count`).textContent = data[id].count;
-    document.getElementById(`${id}Total`).textContent = formatMoney(data[id].count * data[id].price);
-    document.getElementById(`${id}Price`).value = data[id].price;
   });
 
   document.getElementById("grandTotal").textContent = formatMoney(getGrandTotal());
@@ -145,25 +119,18 @@ function saveDay() {
 
   const daySummary = {
     date: today,
-
     stack20Count: data.stack20.count,
     stack20Sales: data.stack20.count * data.stack20.price,
-
     stack25Count: data.stack25.count,
     stack25Sales: data.stack25.count * data.stack25.price,
-
     stack30Count: data.stack30.count,
     stack30Sales: data.stack30.count * data.stack30.price,
-
     your20Count: data.your20.count,
     your20Sales: data.your20.count * data.your20.price,
-
     your25Count: data.your25.count,
     your25Sales: data.your25.count * data.your25.price,
-
     your30Count: data.your30.count,
     your30Sales: data.your30.count * data.your30.price,
-
     totalItems: totalItems,
     grandTotal: getGrandTotal()
   };
@@ -181,13 +148,7 @@ function saveDay() {
   alert("Day saved and reset for tomorrow.");
 }
 
-ids.forEach((id) => {
-  document.getElementById(`${id}Price`).addEventListener("input", () => {
-    data[id].price = Number(document.getElementById(`${id}Price`).value) || 0;
-    saveCurrentData();
-    updateScreen();
-  });
-});
-
+updateScreen();
+renderHistory();
 updateScreen();
 renderHistory();

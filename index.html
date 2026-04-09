@@ -3,78 +3,56 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mini Pancake Sales Tracker</title>
+  <title>Mini Pancake Tracker</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div class="app">
     <h1>Mini Pancakes</h1>
-    <p class="subtitle">Pink Sales Tracker</p>
+    <p class="subtitle">Tap Counter</p>
 
-    <div class="item-card">
-      <h2>Stack’d 20</h2>
-      <div class="price-line">Price: $<input type="number" id="stack20Price" value="10" min="0" step="0.01"></div>
-      <div class="count" id="stack20Count">0</div>
-      <div class="button-row">
-        <button onclick="changeCount('stack20', -1)">-1</button>
-        <button onclick="changeCount('stack20', 1)">+1</button>
+    <div class="grid">
+      <div class="tile" onclick="changeCount('stack20', 1)">
+        <img src="images/stack.png" alt="Stack'd pancakes" class="tile-img" />
+        <h2>Stack’d 20</h2>
+        <p class="price">$10</p>
+        <div class="count" id="stack20Count">0</div>
       </div>
-      <p class="item-total">Sales: <span id="stack20Total">$0.00</span></p>
-    </div>
 
-    <div class="item-card">
-      <h2>Stack’d 25</h2>
-      <div class="price-line">Price: $<input type="number" id="stack25Price" value="12" min="0" step="0.01"></div>
-      <div class="count" id="stack25Count">0</div>
-      <div class="button-row">
-        <button onclick="changeCount('stack25', -1)">-1</button>
-        <button onclick="changeCount('stack25', 1)">+1</button>
+      <div class="tile" onclick="changeCount('stack25', 1)">
+        <img src="images/stack.png" alt="Stack'd pancakes" class="tile-img" />
+        <h2>Stack’d 25</h2>
+        <p class="price">$12</p>
+        <div class="count" id="stack25Count">0</div>
       </div>
-      <p class="item-total">Sales: <span id="stack25Total">$0.00</span></p>
-    </div>
 
-    <div class="item-card">
-      <h2>Stack’d 30</h2>
-      <div class="price-line">Price: $<input type="number" id="stack30Price" value="15" min="0" step="0.01"></div>
-      <div class="count" id="stack30Count">0</div>
-      <div class="button-row">
-        <button onclick="changeCount('stack30', -1)">-1</button>
-        <button onclick="changeCount('stack30', 1)">+1</button>
+      <div class="tile" onclick="changeCount('stack30', 1)">
+        <img src="images/stack.png" alt="Stack'd pancakes" class="tile-img" />
+        <h2>Stack’d 30</h2>
+        <p class="price">$15</p>
+        <div class="count" id="stack30Count">0</div>
       </div>
-      <p class="item-total">Sales: <span id="stack30Total">$0.00</span></p>
-    </div>
 
-    <div class="item-card">
-      <h2>Your Way 20</h2>
-      <div class="price-line">Price: $<input type="number" id="your20Price" value="8" min="0" step="0.01"></div>
-      <div class="count" id="your20Count">0</div>
-      <div class="button-row">
-        <button onclick="changeCount('your20', -1)">-1</button>
-        <button onclick="changeCount('your20', 1)">+1</button>
+      <div class="tile" onclick="changeCount('your20', 1)">
+        <img src="images/yourway.png" alt="Your Way pancakes" class="tile-img" />
+        <h2>Your Way 20</h2>
+        <p class="price">$8</p>
+        <div class="count" id="your20Count">0</div>
       </div>
-      <p class="item-total">Sales: <span id="your20Total">$0.00</span></p>
-    </div>
 
-    <div class="item-card">
-      <h2>Your Way 25</h2>
-      <div class="price-line">Price: $<input type="number" id="your25Price" value="10" min="0" step="0.01"></div>
-      <div class="count" id="your25Count">0</div>
-      <div class="button-row">
-        <button onclick="changeCount('your25', -1)">-1</button>
-        <button onclick="changeCount('your25', 1)">+1</button>
+      <div class="tile" onclick="changeCount('your25', 1)">
+        <img src="images/yourway.png" alt="Your Way pancakes" class="tile-img" />
+        <h2>Your Way 25</h2>
+        <p class="price">$10</p>
+        <div class="count" id="your25Count">0</div>
       </div>
-      <p class="item-total">Sales: <span id="your25Total">$0.00</span></p>
-    </div>
 
-    <div class="item-card">
-      <h2>Your Way 30</h2>
-      <div class="price-line">Price: $<input type="number" id="your30Price" value="12" min="0" step="0.01"></div>
-      <div class="count" id="your30Count">0</div>
-      <div class="button-row">
-        <button onclick="changeCount('your30', -1)">-1</button>
-        <button onclick="changeCount('your30', 1)">+1</button>
+      <div class="tile" onclick="changeCount('your30', 1)">
+        <img src="images/yourway.png" alt="Your Way pancakes" class="tile-img" />
+        <h2>Your Way 30</h2>
+        <p class="price">$12</p>
+        <div class="count" id="your30Count">0</div>
       </div>
-      <p class="item-total">Sales: <span id="your30Total">$0.00</span></p>
     </div>
 
     <div class="summary-card">

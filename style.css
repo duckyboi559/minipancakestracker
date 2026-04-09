@@ -1,146 +1,150 @@
 * {
-  box-sizing: border-box;
+box-sizing:border-box;
 }
 
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: linear-gradient(to bottom, #ffd6e7, #ffc1dc);
-  color: #222;
+body{
+margin:0;
+font-family:Arial, Helvetica, sans-serif;
+background:#f5c6d6;
 }
 
-.app {
-  max-width: 700px;
-  margin: 0 auto;
-  padding: 20px 15px 40px;
+.app{
+max-width:700px;
+margin:auto;
+padding:20px;
 }
 
-h1 {
-  text-align: center;
-  margin-bottom: 5px;
-  color: #b03060;
+h1{
+text-align:center;
+color:#a12c55;
+margin-bottom:5px;
 }
 
-.subtitle {
-  text-align: center;
-  margin-top: 0;
-  margin-bottom: 20px;
-  color: #8a2d53;
+.subtitle{
+text-align:center;
+margin-bottom:20px;
+color:#a12c55;
 }
 
-.grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 14px;
-  margin-bottom: 16px;
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:16px;
 }
 
-.tile {
-  background: white;
-  border-radius: 18px;
-  padding: 16px;
-  text-align: center;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  border: 2px solid #ffc0cb;
-  cursor: pointer;
+/* TILE BOX */
+
+.tile{
+position:relative;
+border-radius:18px;
+padding:20px;
+text-align:center;
+color:white;
+font-weight:bold;
+overflow:hidden;
+min-height:150px;
+display:flex;
+flex-direction:column;
+justify-content:center;
+box-shadow:0 6px 14px rgba(0,0,0,.15);
+cursor:pointer;
 }
 
-.tile:active {
-  transform: scale(0.98);
+/* background image layer */
+
+.tile::before{
+content:"";
+position:absolute;
+inset:0;
+background-size:cover;
+background-position:center;
+opacity:.45;
+z-index:0;
 }
 
-.tile-img {
-  width: 72px;
-  height: 72px;
-  object-fit: contain;
-  display: block;
-  margin: 0 auto 8px;
+/* text above image */
+
+.tile *{
+position:relative;
+z-index:1;
 }
 
-.tile h2 {
-  margin: 0 0 6px;
-  font-size: 1.15rem;
-  color: #b03060;
+/* STACK IMAGE */
+
+.stack::before{
+background-image:url("images/stack.png");
 }
 
-.price {
-  margin: 0 0 10px;
-  font-weight: bold;
-  color: #8a2d53;
+/* YOUR WAY IMAGE */
+
+.yourway::before{
+background-image:url("images/yourway.png");
 }
 
-.count {
-  font-size: 2.2rem;
-  font-weight: bold;
-  color: #b03060;
+.tile h2{
+margin:0;
+font-size:18px;
 }
 
-.summary-card {
-  background: white;
-  border-radius: 18px;
-  padding: 18px;
-  margin-bottom: 16px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  border: 2px solid #ffc0cb;
+.price{
+margin:4px 0;
 }
 
-.summary-card h2 {
-  margin-top: 0;
+.count{
+font-size:30px;
+margin-top:6px;
 }
 
-.grand-total {
-  font-size: 2.3rem;
-  font-weight: bold;
-  text-align: center;
-  color: #b03060;
+/* SUMMARY CARDS */
+
+.summary-card{
+background:white;
+padding:18px;
+border-radius:18px;
+margin-top:18px;
+box-shadow:0 4px 12px rgba(0,0,0,.1);
 }
 
-.action-row {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 16px;
+.grand-total{
+font-size:28px;
+text-align:center;
+color:#a12c55;
+font-weight:bold;
 }
 
-.save-btn,
-.reset-btn {
-  flex: 1;
-  padding: 16px;
-  font-size: 1.05rem;
-  font-weight: bold;
-  border: none;
-  border-radius: 12px;
-  cursor: pointer;
+.action-row{
+display:flex;
+gap:10px;
+margin-top:15px;
 }
 
-.save-btn {
-  background: #d94f8a;
-  color: white;
+.save-btn{
+flex:1;
+padding:14px;
+background:#ff4f9a;
+border:none;
+border-radius:10px;
+color:white;
+font-weight:bold;
+cursor:pointer;
 }
 
-.reset-btn {
-  background: #5a3142;
-  color: white;
+.reset-btn{
+flex:1;
+padding:14px;
+background:#333;
+border:none;
+border-radius:10px;
+color:white;
+font-weight:bold;
+cursor:pointer;
 }
 
-.history-list {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+.history-list{
+margin-top:10px;
 }
 
-.history-entry {
-  border: 2px solid #ffd0dd;
-  border-radius: 12px;
-  padding: 12px;
-  background: #fff6fa;
-}
-
-.history-entry h3 {
-  margin: 0 0 8px;
-  font-size: 1.05rem;
-  color: #b03060;
-}
-
-.history-entry p {
-  margin: 4px 0;
+.history-entry{
+padding:8px 0;
+border-bottom:1px solid #eee;
 }

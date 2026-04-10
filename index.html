@@ -10,60 +10,60 @@
   <div class="app">
     <header class="hero">
       <h1>Mini Pancakes POS</h1>
-      <p class="subtitle">Tap items, then choose Cash or Digital</p>
+      <p class="subtitle">Tap items, then choose Cash, Digital, or Split</p>
     </header>
 
     <section class="grid">
-      <button class="tile pancake-tile" data-item="stack20" onclick="addItem('stack20', this)">
+      <button class="tile pancake-tile" onclick="addItem('stack20', this)">
         <h2>20 Stack’d</h2>
         <p>$10</p>
         <div class="count" id="stack20Sold">0</div>
         <div class="sold-label">Today Sold</div>
       </button>
 
-      <button class="tile pancake-tile" data-item="stack25" onclick="addItem('stack25', this)">
+      <button class="tile pancake-tile" onclick="addItem('stack25', this)">
         <h2>25 Stack’d</h2>
         <p>$12</p>
         <div class="count" id="stack25Sold">0</div>
         <div class="sold-label">Today Sold</div>
       </button>
 
-      <button class="tile pancake-tile" data-item="stack30" onclick="addItem('stack30', this)">
+      <button class="tile pancake-tile" onclick="addItem('stack30', this)">
         <h2>30 Stack’d</h2>
         <p>$15</p>
         <div class="count" id="stack30Sold">0</div>
         <div class="sold-label">Today Sold</div>
       </button>
 
-      <button class="tile pancake-tile" data-item="your20" onclick="addItem('your20', this)">
+      <button class="tile pancake-tile" onclick="addItem('your20', this)">
         <h2>20 Your Way</h2>
         <p>$8</p>
         <div class="count" id="your20Sold">0</div>
         <div class="sold-label">Today Sold</div>
       </button>
 
-      <button class="tile pancake-tile" data-item="your25" onclick="addItem('your25', this)">
+      <button class="tile pancake-tile" onclick="addItem('your25', this)">
         <h2>25 Your Way</h2>
         <p>$10</p>
         <div class="count" id="your25Sold">0</div>
         <div class="sold-label">Today Sold</div>
       </button>
 
-      <button class="tile pancake-tile" data-item="your30" onclick="addItem('your30', this)">
+      <button class="tile pancake-tile" onclick="addItem('your30', this)">
         <h2>30 Your Way</h2>
         <p>$12</p>
         <div class="count" id="your30Sold">0</div>
         <div class="sold-label">Today Sold</div>
       </button>
 
-      <button class="tile pancake-tile" data-item="bitestack" onclick="addItem('bitestack', this)">
+      <button class="tile pancake-tile" onclick="addItem('bitestack', this)">
         <h2>Bite Stack 10</h2>
         <p>$5</p>
         <div class="count" id="bitestackSold">0</div>
         <div class="sold-label">Today Sold</div>
       </button>
 
-      <button class="tile pancake-tile" data-item="dubai" onclick="addItem('dubai', this)">
+      <button class="tile dubai-tile" onclick="addItem('dubai', this)">
         <h2>Dubai Strawberries</h2>
         <p>$12</p>
         <div class="count" id="dubaiSold">0</div>
@@ -93,6 +93,11 @@
       <div class="checkout-row">
         <button class="pay-btn cash-btn" onclick="checkoutOrder('cash')">Pay Cash</button>
         <button class="pay-btn digital-btn" onclick="checkoutOrder('digital')">Pay Digital</button>
+      </div>
+
+      <div class="checkout-row">
+        <button class="pay-btn split-btn" onclick="splitPaymentHalf()">Split 50/50</button>
+        <button class="pay-btn split-custom-btn" onclick="splitPaymentCustom()">Split Custom</button>
       </div>
 
       <div class="checkout-row">

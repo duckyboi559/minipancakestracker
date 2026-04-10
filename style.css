@@ -65,23 +65,32 @@ body {
   isolation: isolate;
 }
 
-.tile::before {
+.pancake-tile::before,
+.dubai-tile::before {
   content: "";
   position: absolute;
   inset: 0;
-  background-image: url("images/pancake-logo.png");
   background-size: cover;
   background-position: center;
   opacity: 0.35;
   z-index: -2;
 }
 
-.tile::after {
+.pancake-tile::after,
+.dubai-tile::after {
   content: "";
   position: absolute;
   inset: 0;
   background: linear-gradient(to bottom, rgba(138, 45, 83, 0.28), rgba(138, 45, 83, 0.55));
   z-index: -1;
+}
+
+.pancake-tile::before {
+  background-image: url("images/pancake-logo.png");
+}
+
+.dubai-tile::before {
+  background-image: url("images/dubai.png");
 }
 
 .tile h2,
@@ -244,6 +253,14 @@ body {
   background: #5b57d9;
 }
 
+.split-btn {
+  background: #ff9f1c;
+}
+
+.split-custom-btn {
+  background: #8b5cf6;
+}
+
 .cancel-btn {
   background: #444;
 }
@@ -260,6 +277,7 @@ body {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 14px;
+  margin-bottom: 16px;
 }
 
 .summary-card {

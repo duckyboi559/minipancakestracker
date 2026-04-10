@@ -10,7 +10,7 @@ const ITEMS = {
 };
 
 const ITEM_IDS = Object.keys(ITEMS);
-const STORAGE_KEY = "miniPancakePosStateV1";
+const STORAGE_KEY = "miniPancakePosStateV2";
 const tapSound = new Audio("sounds/tap.mp3");
 tapSound.preload = "auto";
 
@@ -292,6 +292,39 @@ function clearCurrentOrder() {
   updateScreen();
 }
 
+function finalizeOrder(cashAmount, digitalAmount) {
+  const subtotal = getOrderSubtotal();
+
+  if (subtotal === 0) {
+    alert("Tap items first.");
+    return;
+  }
+
+  if (cashAmount < 0 || digitalAmount < 0) {
+    alert("Payment amounts can't be negative.");
+    return;
+  }
+
+  const combined = cashAmount + digitalAmount;
+  if (Math.abs(combined - subtotal) > 0.009) {
+    alert(`Payments must equal ${formatMoney(subtotal)}.`);
+    return;
+  }
+
+  ITEM_IDS.forEach((id) => {
+    state.todaySold[id] += state.currentOrder[id];
+  });
+
+  state.todayCash += cashAmount;
+  state.todayDigital += digitalAmount;
+
+  state.currentOrder = createEmptyCounts();
+  state.actionStack = [];
+
+  saveState();
+  updateScreen();
+}
+
 function checkoutOrder(method) {
   const subtotal = getOrderSubtotal();
 
@@ -300,21 +333,56 @@ function checkoutOrder(method) {
     return;
   }
 
-  ITEM_IDS.forEach((id) => {
-    state.todaySold[id] += state.currentOrder[id];
-  });
-
   if (method === "cash") {
-    state.todayCash += subtotal;
+    finalizeOrder(subtotal, 0);
   } else {
-    state.todayDigital += subtotal;
+    finalizeOrder(0, subtotal);
+  }
+}
+
+function splitPaymentHalf() {
+  const subtotal = getOrderSubtotal();
+
+  if (subtotal === 0) {
+    alert("Tap items first.");
+    return;
   }
 
-  state.currentOrder = createEmptyCounts();
-  state.actionStack = [];
+  const halfCash = Number((subtotal / 2).toFixed(2));
+  const halfDigital = Number((subtotal - halfCash).toFixed(2));
 
-  saveState();
-  updateScreen();
+  finalizeOrder(halfCash, halfDigital);
+}
+
+function splitPaymentCustom() {
+  const subtotal = getOrderSubtotal();
+
+  if (subtotal === 0) {
+    alert("Tap items first.");
+    return;
+  }
+
+  const input = prompt(`Order total is ${formatMoney(subtotal)}.\nEnter CASH amount:`);
+
+  if (input === null) {
+    return;
+  }
+
+  const cashAmount = Number(input);
+
+  if (Number.isNaN(cashAmount)) {
+    alert("Enter a valid number.");
+    return;
+  }
+
+  if (cashAmount < 0 || cashAmount > subtotal) {
+    alert(`Cash amount must be between $0 and ${subtotal.toFixed(2)}.`);
+    return;
+  }
+
+  const digitalAmount = Number((subtotal - cashAmount).toFixed(2));
+
+  finalizeOrder(Number(cashAmount.toFixed(2)), digitalAmount);
 }
 
 function buildDaySummary(useDisplayLabel = true) {

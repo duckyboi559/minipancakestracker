@@ -5,24 +5,23 @@ import {
   push,
   set,
   remove,
-  onValue,
-  runTransaction
+  onValue
 } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-database.js";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDMhniu1SEmiIWoXzwJy6zVSOZkHELhfLc",
-  authDomain: "family-sales.firebaseapp.com",
-  databaseURL: "https://family-sales-default-rtdb.firebaseio.com",
-  projectId: "family-sales",
-  storageBucket: "family-sales.firebasestorage.app",
-  messagingSenderId: "590845027956",
-  appId: "1:590845027956:web:676df074fe6150e8d39321"
+  apiKey: "PASTE_YOURS",
+  authDomain: "PASTE_YOURS",
+  databaseURL: "PASTE_YOURS",
+  projectId: "PASTE_YOURS",
+  storageBucket: "PASTE_YOURS",
+  messagingSenderId: "PASTE_YOURS",
+  appId: "PASTE_YOURS"
 };
 
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
-const STACKED_BUILDS = {
+const BUILT_STACKS = {
   "Classic #1": ["Strawberries", "Bananas", "Powder Sugar", "Syrup"],
   "Classic #2": ["Strawberries", "Bananas", "Lechera", "Nutella", "Powder Sugar"],
   "Churro Overload": ["Cinnamon Sugar", "Cajeta", "Lechera", "Strawberries"],
@@ -61,9 +60,19 @@ const DRIZZLES = [
   "Tres Leches"
 ];
 
-const FRUITS = [
-  "Strawberries",
-  "Bananas"
+const FRUITS = ["Strawberries", "Bananas"];
+
+const BOXES = [
+  { name: "Classic #1", image: "images/classic-1.png" },
+  { name: "Classic #2", image: "images/classic-2.png" },
+  { name: "Churro Overload", image: "images/churro-overload.png" },
+  { name: "Oreo Banana Dulce", image: "images/oreo-banana-dulce.png" },
+  { name: "Dubai Chocolate", image: "images/dubai-chocolate.png" },
+  { name: "Oreo Overload", image: "images/oreo-overload.png" },
+  { name: "Tres Leches", image: "images/tres-leches.png" },
+  { name: "S'mores", image: "images/smores.png" },
+  { name: "Stack It Your Way", image: "images/your-way.png" },
+  { name: "Dubai Strawberries", image: "images/dubai-strawberries.png" }
 ];
 
 let trackerState = {
@@ -93,8 +102,9 @@ function todayKey() {
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
 }
 
-function todayLabel() {
-  return new Date().toLocaleDateString();
+function formatSaveLabel(dateStr) {
+  const d = new Date(dateStr + "T12:00:00");
+  return d.toLocaleDateString();
 }
 
 function clone(obj) {
@@ -113,14 +123,12 @@ function getWeekStart(date = new Date()) {
 function topLabel(counts) {
   let best = "—";
   let bestCount = 0;
-
   Object.entries(counts || {}).forEach(([name, count]) => {
     if (count > bestCount) {
       best = `${name} (${count})`;
       bestCount = count;
     }
   });
-
   return bestCount ? best : "—";
 }
 
@@ -197,20 +205,47 @@ function choiceButtons(items, key, isMulti = false) {
   `;
 }
 
-function renderScreen() {
-  const params = new URLSearchParams(window.location.search);
-  const view = params.get("view");
+function renderBoxMenu() {
+  const { itemCounts } = getCountsFromSales(trackerState.sales);
+  const wrap = document.getElementById("boxMenu");
 
-  document.getElementById("mainScreen").classList.toggle("hidden", view === "history");
-  document.getElementById("historyScreen").classList.toggle("hidden", view !== "history");
-
-  if (view === "history") {
-    selectedHistoryDay = params.get("day") || null;
-    renderHistoryScreen();
-  } else {
-    renderMainScreen();
-  }
+  wrap.innerHTML = BOXES.map(box => {
+    const soldCount =
+      itemCounts[box.name] ||
+      Object.keys(BUILT_STACKS).includes(box.name)
+        ? 0
+        : 0;
+    return `
+      <button type="button" class="menu-box" style="background-image:url('${box.image}')" onclick="selectBox('${escapeForSingleQuote(box.name)}')">
+        <div class="menu-box-content">
+          <h3>${box.name}</h3>
+          <p>${getBoxPriceText(box.name)}</p>
+          <p>Today Sold: ${getTodaySoldForBox(box.name)}</p>
+        </div>
+      </button>
+    `;
+  }).join("");
 }
+
+function getTodaySoldForBox(name) {
+  const { itemCounts, builtCounts } = getCountsFromSales(trackerState.sales);
+  if (BUILT_STACKS[name]) return builtCounts[name] || 0;
+  return itemCounts[name] || 0;
+}
+
+function getBoxPriceText(name) {
+  if (BUILT_STACKS[name]) return "20 $10 · 25 $12 · 30 $15";
+  if (name === "Stack It Your Way") return "20 $8 · 25 $10 · 30 $12";
+  if (name === "Dubai Strawberries") return "$12";
+  return "";
+}
+
+window.selectBox = function(name) {
+  builder = { data: { itemType: name } };
+  editingDraftIndex = null;
+  renderBuilder();
+  renderReview();
+};
 
 window.goHome = function () {
   history.pushState({}, "", window.location.pathname);
@@ -228,13 +263,6 @@ window.selectHistoryDay = function (dayKey) {
 };
 
 window.addEventListener("popstate", renderScreen);
-
-window.startBuilder = function () {
-  builder = { data: {} };
-  editingDraftIndex = null;
-  renderBuilder();
-  renderReview();
-};
 
 window.clearBuilder = function () {
   builder = { data: {} };
@@ -263,81 +291,54 @@ function renderBuilder() {
   const el = document.getElementById("builderStage");
   if (!el) return;
 
-  let html = `
-    <h3>Jessica Menu</h3>
-    <h4>1. Choose item</h4>
-    ${choiceButtons([
-      "Stack'd",
-      "Your Way",
-      "Bite Stack",
-      "Dubai Strawberries"
-    ], "itemType")}
-  `;
-
   const type = builder.data.itemType;
+  if (!type) {
+    el.innerHTML = `<p>Tap a box to begin.</p>`;
+    return;
+  }
 
-  if (type === "Stack'd") {
+  let html = `<h3>${type}</h3>`;
+
+  if (BUILT_STACKS[type]) {
     html += `
-      <h4>2. Size</h4>
-      ${choiceButtons(["20 Minis", "25 Minis", "30 Minis"], "stackedSize")}
+      <h4>1. Choose Size</h4>
+      ${choiceButtons(["20 Minis", "25 Minis", "30 Minis"], "builtSize")}
     `;
-    if (builder.data.stackedSize) {
+    if (builder.data.builtSize) {
       html += `
-        <h4>3. Choose Build</h4>
-        ${choiceButtons(Object.keys(STACKED_BUILDS), "stackedBuild")}
-      `;
-      if (builder.data.stackedBuild) {
-        html += `
-          <h4>Ingredients</h4>
-          <div class="review-card">
-            ${STACKED_BUILDS[builder.data.stackedBuild].map(i => `<p>${i}</p>`).join("")}
-          </div>
-        `;
-      }
-      html += `
-        <h4>4. Quantity</h4>
+        <h4>2. Ingredients</h4>
+        <div class="review-card">
+          ${BUILT_STACKS[type].map(i => `<p>${i}</p>`).join("")}
+        </div>
+        <h4>3. Quantity</h4>
         ${choiceButtons(["1", "2", "3", "4"], "quantity")}
       `;
     }
   }
 
-  if (type === "Your Way") {
+  if (type === "Stack It Your Way") {
     html += `
-      <h4>2. Size</h4>
+      <h4>1. Choose Size</h4>
       ${choiceButtons(["20 Minis", "25 Minis", "30 Minis"], "yourWaySize")}
     `;
     if (builder.data.yourWaySize) {
       html += `
-        <h4>3. Toppings</h4>
+        <h4>2. Toppings</h4>
         ${choiceButtons(TOPPINGS, "yourWayToppings", true)}
-        <h4>4. Drizzles</h4>
+        <h4>3. Drizzles</h4>
         ${choiceButtons(DRIZZLES, "yourWayDrizzles", true)}
-        <h4>5. Fruits</h4>
+        <h4>4. Fruits</h4>
         ${choiceButtons(FRUITS, "yourWayFruits", true)}
-        <h4>6. Quantity</h4>
+        <h4>5. Quantity</h4>
         ${choiceButtons(["1", "2", "3", "4"], "quantity")}
-        <p class="helper">No hard limit. Tap as many as needed.</p>
+        <p class="helper">Tap as many toppings, drizzles, and fruits as needed.</p>
       `;
     }
   }
 
-  if (type === "Bite Stack") {
-    html += `
-      <h4>2. Toppings</h4>
-      ${choiceButtons(TOPPINGS, "biteToppings", true)}
-      <h4>3. Drizzles</h4>
-      ${choiceButtons(DRIZZLES, "biteDrizzles", true)}
-      <h4>4. Fruits</h4>
-      ${choiceButtons(FRUITS, "biteFruits", true)}
-      <h4>5. Quantity</h4>
-      ${choiceButtons(["1", "2", "3", "4"], "quantity")}
-      <p class="helper">No hard limit. Tap as many as needed.</p>
-    `;
-  }
-
   if (type === "Dubai Strawberries") {
     html += `
-      <h4>2. Included</h4>
+      <h4>1. Included</h4>
       <div class="review-card">
         <p>Strawberries</p>
         <p>Pistachio Cream</p>
@@ -345,7 +346,7 @@ function renderBuilder() {
         <p>Kataifi</p>
         <p>Crushed Pistachio</p>
       </div>
-      <h4>3. Quantity</h4>
+      <h4>2. Quantity</h4>
       ${choiceButtons(["1", "2", "3", "4"], "quantity")}
     `;
   }
@@ -360,22 +361,22 @@ function buildPreviewItem() {
 
   if (!type || !qty) return null;
 
-  if (type === "Stack'd") {
-    if (!d.stackedSize || !d.stackedBuild) return null;
+  if (BUILT_STACKS[type]) {
+    if (!d.builtSize) return null;
     const priceMap = { "20 Minis": 10, "25 Minis": 12, "30 Minis": 15 };
-    const unit = priceMap[d.stackedSize];
+    const unit = priceMap[d.builtSize];
     return {
-      kind: "stacked",
-      name: `${d.stackedSize} ${d.stackedBuild}`,
+      kind: "built",
+      name: `${d.builtSize} ${type}`,
       quantity: qty,
       unitPrice: unit,
       totalPrice: unit * qty,
-      lines: [`Quantity: ${qty}`, `Build: ${d.stackedBuild}`, ...STACKED_BUILDS[d.stackedBuild]],
-      builtName: d.stackedBuild
+      lines: [`Quantity: ${qty}`, `Build: ${type}`, ...BUILT_STACKS[type]],
+      builtName: type
     };
   }
 
-  if (type === "Your Way") {
+  if (type === "Stack It Your Way") {
     if (!d.yourWaySize) return null;
     const priceMap = { "20 Minis": 8, "25 Minis": 10, "30 Minis": 12 };
     const unit = priceMap[d.yourWaySize];
@@ -386,17 +387,6 @@ function buildPreviewItem() {
       unitPrice: unit,
       totalPrice: unit * qty,
       lines: [`Quantity: ${qty}`, ...(d.yourWayToppings || []), ...(d.yourWayDrizzles || []), ...(d.yourWayFruits || [])]
-    };
-  }
-
-  if (type === "Bite Stack") {
-    return {
-      kind: "biteStack",
-      name: "Bite Stack",
-      quantity: qty,
-      unitPrice: 5,
-      totalPrice: 5 * qty,
-      lines: [`Quantity: ${qty}`, ...(d.biteToppings || []), ...(d.biteDrizzles || []), ...(d.biteFruits || [])]
     };
   }
 
@@ -430,7 +420,7 @@ function renderReview() {
   `;
 }
 
-window.addBuiltItemToDraft = function () {
+window.addBuiltItemToDraft = function() {
   const preview = buildPreviewItem();
   if (!preview) {
     alert("Finish building the item first.");
@@ -455,7 +445,7 @@ window.addBuiltItemToDraft = function () {
   renderDraft();
 };
 
-window.editDraftItem = function (index) {
+window.editDraftItem = function(index) {
   const item = draftItems[index];
   if (!item) return;
   builder = { data: clone(item.builderData) };
@@ -464,12 +454,12 @@ window.editDraftItem = function (index) {
   renderReview();
 };
 
-window.removeDraftItem = function (index) {
+window.removeDraftItem = function(index) {
   draftItems.splice(index, 1);
   renderDraft();
 };
 
-window.clearDraft = function () {
+window.clearDraft = function() {
   if (!draftItems.length) return;
   if (!confirm("Clear the current draft?")) return;
   draftItems = [];
@@ -508,7 +498,7 @@ function renderDraft() {
   `).join("");
 }
 
-window.addDraftToToday = async function () {
+window.addDraftToToday = async function() {
   if (!draftItems.length) {
     alert("Add at least one item first.");
     return;
@@ -578,7 +568,7 @@ window.addDraftToToday = async function () {
   renderDraft();
 };
 
-window.removeSale = async function (saleKey) {
+window.removeSale = async function(saleKey) {
   if (!confirm("Remove this sale?")) return;
   await remove(ref(db, `jessicaTracker/current/sales/${saleKey}`));
 };
@@ -607,6 +597,7 @@ function renderTodaySales() {
 }
 
 function renderMainScreen() {
+  renderBoxMenu();
   renderBuilder();
   renderReview();
   renderDraft();
@@ -633,6 +624,12 @@ function renderMainScreen() {
     ? countEntries.map(([name, count]) => `<p><strong>${name}:</strong> ${count}</p>`).join("")
     : "<p>No sales yet.</p>";
 
+  const today = new Date();
+  const defaultDate = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
+  if (!document.getElementById("saveDateInput").value) {
+    document.getElementById("saveDateInput").value = defaultDate;
+  }
+
   renderWeeklyStats();
 }
 
@@ -643,8 +640,8 @@ function renderWeeklyStats() {
   const weekBuiltCounts = {};
 
   Object.values(trackerState.days || {}).forEach(day => {
-    const created = new Date(day.createdAt || 0);
-    if (created >= start) {
+    const savedDate = day.savedDate ? new Date(day.savedDate + "T12:00:00") : new Date(day.createdAt || 0);
+    if (savedDate >= start) {
       weekTotal += Number(day.totals?.dayTotal || 0);
 
       Object.entries(day.itemCounts || {}).forEach(([k, v]) => {
@@ -662,7 +659,13 @@ function renderWeeklyStats() {
   document.getElementById("weekTopBuilt").textContent = topLabel(weekBuiltCounts);
 }
 
-window.saveDay = async function () {
+window.saveDay = async function() {
+  const saveDate = document.getElementById("saveDateInput").value;
+  if (!saveDate) {
+    alert("Pick a save date first.");
+    return;
+  }
+
   const totals = totalsFromSales(trackerState.sales);
   const { itemCounts, builtCounts } = getCountsFromSales(trackerState.sales);
 
@@ -671,8 +674,9 @@ window.saveDay = async function () {
     return;
   }
 
-  await set(ref(db, `jessicaTracker/days/${todayKey()}`), {
-    label: todayLabel(),
+  await set(ref(db, `jessicaTracker/days/${saveDate}`), {
+    label: formatSaveLabel(saveDate),
+    savedDate: saveDate,
     createdAt: Date.now(),
     sales: clone(trackerState.sales || {}),
     totals,
@@ -688,10 +692,10 @@ window.saveDay = async function () {
   renderBuilder();
   renderReview();
   renderDraft();
-  alert("Day saved.");
+  alert(`Day saved for ${formatSaveLabel(saveDate)}.`);
 };
 
-window.resetDay = async function () {
+window.resetDay = async function() {
   if (!confirm("Reset today without saving?")) return;
 
   await set(ref(db, "jessicaTracker/current/sales"), {});
@@ -762,6 +766,21 @@ function renderHistoryScreen() {
       </div>
     `).join("")}
   `;
+}
+
+function renderScreen() {
+  const params = new URLSearchParams(window.location.search);
+  const view = params.get("view");
+
+  document.getElementById("mainScreen").classList.toggle("hidden", view === "history");
+  document.getElementById("historyScreen").classList.toggle("hidden", view !== "history");
+
+  if (view === "history") {
+    selectedHistoryDay = params.get("day") || null;
+    renderHistoryScreen();
+  } else {
+    renderMainScreen();
+  }
 }
 
 function attachListeners() {

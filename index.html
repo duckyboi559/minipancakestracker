@@ -3,184 +3,355 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Jessica Pancake Tracker</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>Jessica Pancake Box Preview</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    :root {
+      --pink-1: #ffd8e8;
+      --pink-2: #ffc7df;
+      --pink-4: #d94f8a;
+      --pink-5: #8a2d53;
+      --cream: #fff8fc;
+      --line: #f3bfd6;
+      --purple: #8b5cf6;
+      --dark: #444;
+      --shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      color: #222;
+      background: linear-gradient(to bottom, var(--pink-1), var(--pink-2));
+    }
+
+    .app {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 16px;
+    }
+
+    .hero {
+      text-align: center;
+      margin-bottom: 16px;
+    }
+
+    .hero h1 {
+      margin: 0 0 6px;
+      color: var(--pink-5);
+      font-size: 2.4rem;
+    }
+
+    .subtitle {
+      margin: 0;
+      color: var(--pink-5);
+      font-size: 1.1rem;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 16px;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.96);
+      border-radius: 18px;
+      padding: 16px;
+      box-shadow: var(--shadow);
+    }
+
+    .card h2 {
+      margin-top: 0;
+      color: var(--pink-5);
+    }
+
+    .box-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+
+    .menu-box {
+      border: none;
+      border-radius: 18px;
+      padding: 16px;
+      min-height: 170px;
+      text-align: left;
+      cursor: pointer;
+      background: linear-gradient(180deg, rgba(217,79,138,0.95), rgba(138,45,83,0.95));
+      color: white;
+      box-shadow: var(--shadow);
+    }
+
+    .menu-box h3 {
+      margin: 0 0 8px;
+      font-size: 1.4rem;
+    }
+
+    .menu-box .price {
+      font-size: 1.15rem;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .menu-box .mini {
+      font-size: 0.95rem;
+      opacity: 0.95;
+      line-height: 1.35;
+    }
+
+    .choice-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .choice-btn {
+      border: none;
+      border-radius: 14px;
+      padding: 12px;
+      font-weight: bold;
+      cursor: pointer;
+      background: #fff3f8;
+      color: var(--pink-5);
+    }
+
+    .choice-btn.selected {
+      background: var(--pink-4);
+      color: white;
+    }
+
+    .choice-btn.multi-selected {
+      background: var(--purple);
+      color: white;
+    }
+
+    .info-box {
+      background: var(--cream);
+      border: 2px solid var(--line);
+      border-radius: 14px;
+      padding: 12px;
+      margin-top: 12px;
+    }
+
+    .info-box p {
+      margin: 5px 0;
+    }
+
+    .section-title {
+      color: var(--pink-5);
+      margin: 14px 0 8px;
+      font-weight: bold;
+      font-size: 1.1rem;
+    }
+
+    @media (max-width: 1000px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
+      .box-grid,
+      .choice-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
 <body>
   <div class="app">
-    <section id="mainScreen">
-      <header class="hero">
-        <h1>Jessica Pancake Tracker</h1>
-        <p class="subtitle">Daily sales tracker</p>
-      </header>
+    <header class="hero">
+      <h1>Jessica Pancake Preview</h1>
+      <p class="subtitle">Built stacks as boxes + Your Way custom builder</p>
+    </header>
 
-      <div class="nav-row">
-        <button type="button" class="nav-btn" onclick="goHome()">Main Screen</button>
-        <button type="button" class="nav-btn" onclick="goHistory()">Saved Previous Days</button>
-      </div>
+    <div class="layout">
+      <section class="card">
+        <h2>Built Stack’d Boxes</h2>
+        <div class="box-grid" id="builtBoxes"></div>
 
-      <section class="summary-grid">
-        <div class="card">
-          <h3>Total Sales</h3>
-          <div class="big-number money" id="dayTotal">$0.00</div>
-        </div>
-        <div class="card">
-          <h3>Cash</h3>
-          <div class="big-number money" id="cashTotal">$0.00</div>
-        </div>
-        <div class="card">
-          <h3>Cash App</h3>
-          <div class="big-number money" id="cashAppTotal">$0.00</div>
-        </div>
-        <div class="card">
-          <h3>Apple Pay</h3>
-          <div class="big-number money" id="applePayTotal">$0.00</div>
-        </div>
-      </section>
-
-      <section class="summary-grid">
-        <div class="card">
-          <h3>Square</h3>
-          <div class="big-number money" id="squareTotal">$0.00</div>
-        </div>
-        <div class="card">
-          <h3>Top Seller</h3>
-          <div class="big-number small-number" id="topSeller">—</div>
-        </div>
-        <div class="card">
-          <h3>Items Sold</h3>
-          <div class="big-number" id="itemsSoldCount">0</div>
-        </div>
-        <div class="card">
-          <h3>Weekly Total</h3>
-          <div class="big-number money" id="weekTotal">$0.00</div>
-        </div>
-      </section>
-
-      <section class="summary-grid">
-        <div class="card">
-          <h3>Weekly Top Seller</h3>
-          <div class="big-number small-number" id="weekTopSeller">—</div>
-        </div>
-        <div class="card">
-          <h3>Top Built Stack</h3>
-          <div class="big-number small-number" id="topBuilt">—</div>
-        </div>
-        <div class="card">
-          <h3>Weekly Top Built</h3>
-          <div class="big-number small-number" id="weekTopBuilt">—</div>
-        </div>
-        <div class="card">
-          <h3>Dubai Strawberries Sold</h3>
-          <div class="big-number" id="dubaiSoldCount">0</div>
-        </div>
-      </section>
-
-      <section class="layout">
-        <div class="left-column">
-          <div class="card">
-            <div class="card-head">
-              <h2>Build Sale</h2>
-              <span id="editingNotice" class="editing-badge hidden">Editing sale item</span>
-            </div>
-
-            <div class="category-grid">
-              <button type="button" class="cat-btn pancake-btn" onclick="startBuilder()">Jessica Menu</button>
-            </div>
-
-            <div id="builderStage" class="builder-stage">
-              <p>Tap Jessica Menu to begin.</p>
-            </div>
-
-            <div class="builder-actions">
-              <button type="button" class="secondary-btn" onclick="clearBuilder()">Clear Builder</button>
-              <button type="button" class="primary-btn" onclick="addBuiltItemToDraft()">Add / Update Item</button>
-            </div>
-          </div>
-
-          <div class="card">
-            <h2>Review Item</h2>
-            <div id="reviewCard" class="review-card">
-              <p>No item being built yet.</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="right-column">
-          <div class="card">
-            <div class="card-head">
-              <h2>Current Draft Sale</h2>
-              <button type="button" class="secondary-btn small-btn" onclick="clearDraft()">Clear Draft</button>
-            </div>
-
-            <div id="draftOrderList" class="order-list">
-              <p>No items in draft yet.</p>
-            </div>
-
-            <div class="totals-box">
-              <div class="line total-line"><span>Draft Total</span><strong id="draftTotal">$0.00</strong></div>
-            </div>
-
-            <div class="builder-actions">
-              <button type="button" class="primary-btn" onclick="addDraftToToday()">Add Sale to Today</button>
-            </div>
-          </div>
-        </div>
+        <div class="section-title">Your Way</div>
+        <button class="menu-box" style="min-height:120px;" onclick="selectYourWay()">
+          <h3>Stack It Your Way</h3>
+          <div class="price">20 Minis $8 · 25 Minis $10 · 30 Minis $12</div>
+          <div class="mini">Tap to build custom toppings, drizzles, and fruits.</div>
+        </button>
       </section>
 
       <section class="card">
-        <h2>Today’s Sales</h2>
-        <div id="todaySalesList" class="live-list">
-          <p>No sales yet.</p>
+        <h2>Right Side Preview</h2>
+        <div id="previewArea" class="info-box">
+          <p>Tap a built stack box or tap Stack It Your Way.</p>
         </div>
       </section>
-
-      <section class="card">
-        <h2>Item Counts Today</h2>
-        <div id="itemCountsBox" class="review-card">
-          <p>No sales yet.</p>
-        </div>
-      </section>
-
-      <section class="card">
-        <div class="card-head">
-          <h2>Day Actions</h2>
-          <div class="inline-buttons">
-            <button type="button" class="primary-btn small-wide-btn" onclick="saveDay()">Save Day</button>
-            <button type="button" class="secondary-btn small-wide-btn" onclick="resetDay()">Reset Day</button>
-          </div>
-        </div>
-      </section>
-    </section>
-
-    <section id="historyScreen" class="hidden">
-      <header class="hero">
-        <h1>Saved Previous Days</h1>
-        <p class="subtitle">Tap a day to see sales + stats</p>
-      </header>
-
-      <div class="nav-row">
-        <button type="button" class="nav-btn" onclick="goHome()">Back to Main</button>
-      </div>
-
-      <section class="layout history-layout">
-        <div class="card">
-          <h2>Saved Days</h2>
-          <div id="historyDaysList" class="history-days-list">
-            <p>No saved days yet.</p>
-          </div>
-        </div>
-
-        <div class="card">
-          <h2 id="historyDetailTitle">Day Details</h2>
-          <div id="historyDetail" class="history-detail">
-            <p>Select a day.</p>
-          </div>
-        </div>
-      </section>
-    </section>
+    </div>
   </div>
 
-  <script type="module" src="script.js"></script>
+  <script>
+    const BUILT_STACKS = [
+      {
+        name: "Classic #1",
+        sizes: "20 Minis $10 · 25 Minis $12 · 30 Minis $15",
+        ingredients: ["Strawberries", "Bananas", "Powder Sugar", "Syrup"]
+      },
+      {
+        name: "Classic #2",
+        sizes: "20 Minis $10 · 25 Minis $12 · 30 Minis $15",
+        ingredients: ["Strawberries", "Bananas", "Lechera", "Nutella", "Powder Sugar"]
+      },
+      {
+        name: "Churro Overload",
+        sizes: "20 Minis $10 · 25 Minis $12 · 30 Minis $15",
+        ingredients: ["Cinnamon Sugar", "Cajeta", "Lechera", "Strawberries"]
+      },
+      {
+        name: "Oreo Banana Dulce",
+        sizes: "20 Minis $10 · 25 Minis $12 · 30 Minis $15",
+        ingredients: ["Bananas", "Oreos", "Cajeta", "Lechera"]
+      },
+      {
+        name: "Dubai Chocolate",
+        sizes: "20 Minis $10 · 25 Minis $12 · 30 Minis $15",
+        ingredients: ["Strawberries", "Crushed Pistachio", "Pistachio Cream", "Chocolate Drizzle", "Kataifi"]
+      },
+      {
+        name: "Oreo Overload",
+        sizes: "20 Minis $10 · 25 Minis $12 · 30 Minis $15",
+        ingredients: ["Oreos", "Lechera", "Nutella", "Strawberries"]
+      },
+      {
+        name: "Tres Leches",
+        sizes: "20 Minis $10 · 25 Minis $12 · 30 Minis $15",
+        ingredients: ["Tres Leches", "Nutella", "Lechera", "Strawberries", "Pecans"]
+      },
+      {
+        name: "S'mores",
+        sizes: "20 Minis $10 · 25 Minis $12 · 30 Minis $15",
+        ingredients: ["Hershey Syrup", "Graham Cracker", "Mini Marshmallows", "Chocolate Chunks"]
+      }
+    ];
+
+    const TOPPINGS = [
+      "Powder Sugar",
+      "Almonds",
+      "Mazapan",
+      "Fruity Pebbles",
+      "Oreos",
+      "Coconut Flakes",
+      "Pecans",
+      "M&M's",
+      "Sprinkles",
+      "Chocolate Chips",
+      "English Toffee Bits",
+      "Crushed Pistachio",
+      "Kataifi"
+    ];
+
+    const DRIZZLES = [
+      "Cajeta",
+      "Lechera",
+      "Nutella",
+      "Syrup",
+      "Strawberry",
+      "Hershey",
+      "Pistachio Cream",
+      "Chocolate Drizzle",
+      "Tres Leches"
+    ];
+
+    const FRUITS = ["Strawberries", "Bananas"];
+
+    const state = {
+      yourWaySize: null,
+      toppings: [],
+      drizzles: [],
+      fruits: []
+    };
+
+    function renderBuiltBoxes() {
+      const boxWrap = document.getElementById("builtBoxes");
+      boxWrap.innerHTML = BUILT_STACKS.map((item, index) => `
+        <button class="menu-box" onclick="showBuilt(${index})">
+          <h3>${item.name}</h3>
+          <div class="price">${item.sizes}</div>
+          <div class="mini">${item.ingredients.slice(0, 3).join(" · ")}${item.ingredients.length > 3 ? " ..." : ""}</div>
+        </button>
+      `).join("");
+    }
+
+    window.showBuilt = function(index) {
+      const item = BUILT_STACKS[index];
+      const preview = document.getElementById("previewArea");
+
+      preview.innerHTML = `
+        <h3 style="margin-top:0; color:#8a2d53;">${item.name}</h3>
+        <p><strong>Sizes:</strong> ${item.sizes}</p>
+        <p><strong>What goes in it:</strong></p>
+        ${item.ingredients.map(x => `<p>• ${x}</p>`).join("")}
+      `;
+    };
+
+    window.selectYourWay = function() {
+      renderYourWay();
+    };
+
+    window.setYourWaySize = function(size) {
+      state.yourWaySize = size;
+      renderYourWay();
+    };
+
+    window.toggleYourWay = function(type, value) {
+      const arr = state[type];
+      const i = arr.indexOf(value);
+      if (i >= 0) arr.splice(i, 1);
+      else arr.push(value);
+      renderYourWay();
+    };
+
+    function choiceButtons(list, key, multi = false) {
+      return `
+        <div class="choice-grid">
+          ${list.map(item => {
+            const selected = multi ? state[key].includes(item) : state[key] === item;
+            const cls = selected
+              ? `choice-btn ${multi ? "multi-selected" : "selected"}`
+              : "choice-btn";
+            const click = multi
+              ? `toggleYourWay('${key}', '${item.replace(/'/g, "\\'")}')`
+              : `setYourWaySize('${item.replace(/'/g, "\\'")}')`;
+            return `<button class="${cls}" onclick="${click}">${item}</button>`;
+          }).join("")}
+        </div>
+      `;
+    }
+
+    function renderYourWay() {
+      const preview = document.getElementById("previewArea");
+      preview.innerHTML = `
+        <h3 style="margin-top:0; color:#8a2d53;">Stack It Your Way</h3>
+        <p><strong>Choose size:</strong></p>
+        ${choiceButtons(["20 Minis $8", "25 Minis $10", "30 Minis $12"], "yourWaySize", false)}
+        <div class="section-title">Toppings</div>
+        ${choiceButtons(TOPPINGS, "toppings", true)}
+        <div class="section-title">Drizzles</div>
+        ${choiceButtons(DRIZZLES, "drizzles", true)}
+        <div class="section-title">Fruits</div>
+        ${choiceButtons(FRUITS, "fruits", true)}
+        <div class="info-box">
+          <p><strong>Current custom build:</strong></p>
+          <p><strong>Size:</strong> ${state.yourWaySize || "None yet"}</p>
+          <p><strong>Toppings:</strong> ${state.toppings.length ? state.toppings.join(", ") : "None yet"}</p>
+          <p><strong>Drizzles:</strong> ${state.drizzles.length ? state.drizzles.join(", ") : "None yet"}</p>
+          <p><strong>Fruits:</strong> ${state.fruits.length ? state.fruits.join(", ") : "None yet"}</p>
+        </div>
+      `;
+    }
+
+    renderBuiltBoxes();
+  </script>
 </body>
 </html>

@@ -5,22 +5,22 @@ import {
   push,
   set,
   remove,
-  onValue
+  onValue,
+  runTransaction
 } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-database.js";
 
 const firebaseConfig = {
-  apiKey: "PASTE_YOURS",
-  authDomain: "PASTE_YOURS",
-  databaseURL: "PASTE_YOURS",
-  projectId: "PASTE_YOURS",
-  storageBucket: "PASTE_YOURS",
-  messagingSenderId: "PASTE_YOURS",
-  appId: "PASTE_YOURS"
+  apiKey: "AIzaSyDMhniu1SEmiIWoXzwJy6zVSOZkHELhfLc",
+  authDomain: "family-sales.firebaseapp.com",
+  databaseURL: "https://family-sales-default-rtdb.firebaseio.com",
+  projectId: "family-sales",
+  storageBucket: "family-sales.firebasestorage.app",
+  messagingSenderId: "590845027956",
+  appId: "1:590845027956:web:676df074fe6150e8d39321"
 };
 
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
-
 const BUILT_STACKS = {
   "Classic #1": ["Strawberries", "Bananas", "Powder Sugar", "Syrup"],
   "Classic #2": ["Strawberries", "Bananas", "Lechera", "Nutella", "Powder Sugar"],

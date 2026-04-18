@@ -9,11 +9,10 @@
   --pink-5: #8a2d53;
   --cream: #fff8fc;
   --line: #f3bfd6;
-  --green: #2d9b57;
-  --blue: #4f59d8;
-  --purple: #8b5cf6;
   --dark: #444;
   --red: #b42318;
+  --green: #2d9b57;
+  --purple: #8b5cf6;
   --shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
 }
 
@@ -22,12 +21,12 @@ body {
   font-family: Arial, Helvetica, sans-serif;
   color: #222;
   background:
-    linear-gradient(rgba(255, 216, 232, 0.90), rgba(255, 199, 223, 0.90)),
-    url("images/logo.png") center center / 480px no-repeat fixed;
+    linear-gradient(rgba(255, 216, 232, 0.92), rgba(255, 199, 223, 0.92)),
+    url("images/logo.png") center center / 450px no-repeat fixed;
 }
 
 .app {
-  max-width: 1450px;
+  max-width: 1500px;
   margin: 0 auto;
   padding: 16px;
 }
@@ -36,9 +35,10 @@ body {
   display: none !important;
 }
 
+/* HERO */
 .hero {
   text-align: center;
-  margin-bottom: 14px;
+  margin-bottom: 12px;
 }
 
 .hero h1 {
@@ -51,51 +51,58 @@ body {
   color: var(--pink-5);
 }
 
+/* NAV */
 .nav-row {
   display: flex;
   gap: 10px;
-  margin-bottom: 14px;
+  margin-bottom: 12px;
 }
 
 .nav-btn {
   border: none;
   border-radius: 12px;
-  padding: 12px 14px;
+  padding: 12px;
   font-weight: bold;
   cursor: pointer;
   background: var(--pink-4);
   color: white;
 }
 
+/* MODE BOXES */
+.mode-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+}
+
+.mode-box {
+  border: none;
+  border-radius: 18px;
+  padding: 20px;
+  cursor: pointer;
+  background: linear-gradient(180deg, #d94f8a, #8a2d53);
+  color: white;
+  text-align: center;
+  box-shadow: var(--shadow);
+}
+
+.mode-box h2 {
+  margin: 0 0 6px;
+}
+
+/* SUMMARY */
 .summary-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 12px;
-  margin-bottom: 14px;
+  gap: 10px;
+  margin-bottom: 12px;
 }
 
-.layout {
-  display: grid;
-  grid-template-columns: 1.05fr 0.95fr;
-  gap: 14px;
-  margin-bottom: 14px;
-}
-
-.left-column,
-.right-column {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-
-.history-layout {
-  grid-template-columns: 0.8fr 1.2fr;
-}
-
+/* CARDS */
 .card {
-  background: rgba(255, 255, 255, 0.95);
+  background: rgba(255,255,255,0.95);
   border-radius: 18px;
-  padding: 16px;
+  padding: 14px;
   box-shadow: var(--shadow);
 }
 
@@ -106,30 +113,42 @@ body {
 }
 
 .big-number {
-  font-size: 2rem;
+  font-size: 1.8rem;
   font-weight: 900;
-  color: var(--pink-5);
   text-align: center;
-  margin-top: 10px;
+  margin-top: 8px;
 }
 
 .small-number {
-  font-size: 1.05rem;
-  line-height: 1.25;
+  font-size: 1rem;
 }
 
 .money {
-  font-size: 1.6rem;
+  font-size: 1.4rem;
 }
 
 .card-head {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  gap: 10px;
-  margin-bottom: 10px;
+  align-items: center;
 }
 
+/* LAYOUT */
+.layout {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.left-column,
+.right-column {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* BIG BOX MENU */
 .box-menu-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -140,22 +159,22 @@ body {
   position: relative;
   border: none;
   border-radius: 18px;
-  min-height: 180px;
+  min-height: 170px;
   padding: 14px;
   text-align: left;
   cursor: pointer;
   overflow: hidden;
-  box-shadow: var(--shadow);
   background-size: cover;
   background-position: center;
   color: white;
+  box-shadow: var(--shadow);
 }
 
 .menu-box::before {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(rgba(0, 0, 0, 0.16), rgba(0, 0, 0, 0.58));
+  background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.6));
 }
 
 .menu-box-content {
@@ -164,29 +183,21 @@ body {
 }
 
 .menu-box h3 {
-  margin: 0 0 8px;
-  color: white;
-  font-size: 1.2rem;
+  margin: 0 0 6px;
 }
 
 .menu-box p {
-  margin: 4px 0;
-  font-weight: bold;
+  margin: 3px 0;
 }
 
+/* BUILDER */
 .builder-stage {
-  min-height: 280px;
+  min-height: 260px;
   background:
-    linear-gradient(rgba(255, 248, 252, 0.90), rgba(255, 248, 252, 0.90)),
-    url("images/logo.png") center center / 250px no-repeat;
+    linear-gradient(rgba(255,248,252,0.92), rgba(255,248,252,0.92)),
+    url("images/logo.png") center center / 200px no-repeat;
   border-radius: 14px;
   padding: 12px;
-}
-
-.builder-stage h3,
-.builder-stage h4 {
-  color: var(--pink-5);
-  margin: 12px 0 8px;
 }
 
 .choice-grid {
@@ -195,18 +206,12 @@ body {
   gap: 10px;
 }
 
-.choice-btn,
-.primary-btn,
-.secondary-btn,
-.action-btn {
+.choice-btn {
   border: none;
   border-radius: 14px;
-  padding: 13px;
-  font-weight: bold;
+  padding: 12px;
   cursor: pointer;
-}
-
-.choice-btn {
+  font-weight: bold;
   background: #fff3f8;
   color: var(--pink-5);
 }
@@ -221,82 +226,88 @@ body {
   color: white;
 }
 
-.helper {
-  color: var(--pink-5);
-  font-size: 0.92rem;
-}
-
-.builder-actions,
-.inline-buttons,
-.order-actions {
+/* BUTTONS */
+.builder-actions {
   display: flex;
   gap: 10px;
-  margin-top: 12px;
-  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+.inline-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.vertical-stack {
+  flex-direction: column;
 }
 
 .primary-btn {
   background: var(--pink-4);
   color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 12px;
+  font-weight: bold;
+  cursor: pointer;
   flex: 1;
 }
 
 .secondary-btn {
   background: var(--dark);
   color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 12px;
+  font-weight: bold;
+  cursor: pointer;
   flex: 1;
 }
 
 .small-btn {
-  flex: 0 0 auto;
-  padding: 10px 12px;
+  flex: 0;
+  padding: 8px 10px;
 }
 
-.small-wide-btn {
-  flex: 0 0 auto;
-  min-width: 120px;
-}
-
-.review-card,
-.order-list,
+/* LISTS */
 .live-list,
-.history-days-list,
-.history-detail,
+.order-list,
+.review-card,
 .totals-box {
   background: var(--cream);
   border: 2px solid var(--line);
-  border-radius: 14px;
-  padding: 12px;
+  border-radius: 12px;
+  padding: 10px;
 }
 
-.review-card p,
-.order-list p,
 .live-list p,
-.history-detail p,
-.history-days-list p {
-  margin: 5px 0;
+.order-list p,
+.review-card p {
+  margin: 4px 0;
 }
 
-.order-item,
-.history-day-card,
-.history-order-card,
-.sale-card {
-  padding: 10px 0;
-  border-bottom: 1px solid var(--line);
+/* COLUMNS */
+.columns-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
 }
 
-.order-item:last-child,
-.history-day-card:last-child,
-.history-order-card:last-child,
-.sale-card:last-child {
-  border-bottom: none;
+.column-card {
+  min-height: 250px;
 }
 
-.order-item-head {
-  display: flex;
-  justify-content: space-between;
-  gap: 8px;
-  align-items: flex-start;
+/* CASH PANEL */
+.cash-panel {
+  margin-top: 10px;
+}
+
+.cash-input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 12px;
+  border: 2px solid var(--line);
+  font-size: 1rem;
 }
 
 .line {
@@ -307,45 +318,34 @@ body {
 
 .total-line {
   border-top: 1px solid var(--line);
-  margin-top: 6px;
   padding-top: 6px;
   font-weight: bold;
 }
 
-.action-btn {
-  background: var(--dark);
-  color: white;
-  padding: 9px 12px;
-}
-
-.delete-btn {
-  background: var(--red);
-}
-
+/* BADGE */
 .editing-badge {
   background: #ffe7a8;
   color: #7a5300;
   padding: 6px 10px;
   border-radius: 999px;
-  font-weight: bold;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
 }
 
+/* DATE */
 .date-input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px;
   border: 2px solid var(--line);
-  background: white;
-  border-radius: 12px;
-  padding: 10px 12px;
-  font-size: 1rem;
 }
 
+/* RESPONSIVE */
 @media (max-width: 1100px) {
   .summary-grid {
     grid-template-columns: 1fr 1fr;
   }
 
-  .layout,
-  .history-layout {
+  .layout {
     grid-template-columns: 1fr;
   }
 
@@ -353,15 +353,7 @@ body {
     grid-template-columns: 1fr 1fr;
   }
 
-  body {
-    background:
-      linear-gradient(rgba(255, 216, 232, 0.93), rgba(255, 199, 223, 0.93)),
-      url("images/logo.png") center top 120px / 300px no-repeat fixed;
-  }
-
-  .builder-stage {
-    background:
-      linear-gradient(rgba(255, 248, 252, 0.94), rgba(255, 248, 252, 0.94)),
-      url("images/logo.png") center center / 180px no-repeat;
+  .columns-3 {
+    grid-template-columns: 1fr;
   }
 }
